@@ -3,92 +3,16 @@ const AdmZip = require("adm-zip");
 const fs = require('fs');
 const path = require('path');
 
+const { market, futuresType, period, dataType, pairs, intervals, years, months } = require('./config');
+
 const baseUrl = 'https://data.binance.vision';
-
-// `futures` or `spot`
-const market = 'futures';
-
-// only applicable if market parameter is `futures`
-// parameter `um` for USD-M, `cm` for COIN-M
-const futuresType = 'um';
-
-const period = 'monthly'; // `monthly` or `daily`
-
-/*
-aggTrades
-indexPriceKlines	
-klines
-markPriceKlines	
-premiumIndexKlines	
-trades
-*/
-const dataType = 'klines';
-
-const pairs = [
-    'BTCUSDT',
-    'ETHUSDT',
-    'AVAXUSDT',
-    'SOLUSDT'
-];
-
-const intervals = [
-    '12h',		
-    '15m',	
-    '1d',
-    '1h',
-    '1m',
-    '1mo',	
-    '1w',
-    '2h',
-    '30m',	
-    '3d',
-    '3m',
-    '4h',
-    '5m',
-    '6h',
-    '8h'
-];
-
-const years = [
-    '2022',
-    '2021'
-];
-
-const months = [
-    '12',
-    '11',
-    '10',
-    '09',
-    '08',
-    '07',
-    '06',
-    '05',
-    '04',
-    '03',
-    '02',
-    '01'
-];
 
 const zipRootFolder = path.join(__dirname, 'data/zip');
 const csvRootFolder = path.join(__dirname, 'data/csv');
 
 async function start() {
     
-    if (!fs.existsSync(zipRootFolder)) {
-        fs.mkdirSync(zipRootFolder);
-    }
-
-    if (!fs.existsSync(csvRootFolder)) {
-        fs.mkdirSync(csvRootFolder);
-    }
-
-    let url = `${baseUrl}/data/${market}`;
-
-    if (market === 'futures') {
-        url += `/${futuresType}`;
-    }
-
-    url += `/${period}/${dataType}`;
+    createFoldersIfNotExists();
 
     for (var i = 0; i < pairs.length; i++) {
 
@@ -108,7 +32,7 @@ async function start() {
 
                     const file = `${symbol}-${interval}-${year}-${month}`;
 
-                    url += `/${symbol}/${interval}/${file}.zip`;
+                    const url = constructUrl(symbol, interval, file);
 
                     const zipPath = await getzip(url, symbol, file);
 
@@ -169,6 +93,32 @@ async function unzip(zipPath, symbol, file) {
         await zip.extractEntryTo(entry, csvFolder, false, true, csvFileName);
 
     }
+
+}
+
+function createFoldersIfNotExists() {
+
+    if (!fs.existsSync(zipRootFolder)) {
+        fs.mkdirSync(zipRootFolder);
+    }
+
+    if (!fs.existsSync(csvRootFolder)) {
+        fs.mkdirSync(csvRootFolder);
+    }
+
+}
+
+function constructUrl(symbol, interval, file) {
+
+    let url = `${baseUrl}/data/${market}`;
+
+    if (market === 'futures') {
+        url += `/${futuresType}`;
+    }
+
+    url += `/${period}/${dataType}/${symbol}/${interval}/${file}.zip`;
+
+    return url;
 
 }
 
