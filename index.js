@@ -7,8 +7,9 @@ const { market, futuresType, period, dataType, pairs, intervals, years, months }
 
 const baseUrl = 'https://data.binance.vision';
 
-const zipRootFolder = path.join(__dirname, 'data/zip');
-const csvRootFolder = path.join(__dirname, 'data/csv');
+const rootDataFolder = path.join(__dirname, 'data');
+const zipRootFolder = path.join(rootDataFolder, 'zip');
+const csvRootFolder = path.join(rootDataFolder, 'csv');
 
 async function start() {
     
@@ -97,6 +98,10 @@ async function unzip(zipPath, symbol, file) {
 }
 
 function createFoldersIfNotExists() {
+
+    if (!fs.existsSync(rootDataFolder)) {
+        fs.mkdirSync(rootDataFolder);
+    }
 
     if (!fs.existsSync(zipRootFolder)) {
         fs.mkdirSync(zipRootFolder);
