@@ -1,0 +1,17 @@
+{
+  "name": "binance-public-data-node",
+  "version": "1.0.0",
+  "description": "Binance public data fetcher and unzipper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "erencelik",
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "request": "^2.88.2"
+  }
+}
