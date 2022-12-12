@@ -2,9 +2,19 @@
 
 Nodejs downloader and unzipper script for Binance Public Data.
 
-Cconfigure variables in `index.js`
+Cconfigure variables in `config.js`
 
-Run `node main`
+Run `npm start`
+
+### Open Source Libraries
+
+## Networking
+
+Project uses `request` package to fetch files.
+
+## Unzipping
+
+Project uses `adm-zip` package to unzip files.
 
 ## TODO
 
