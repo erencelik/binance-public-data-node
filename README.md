@@ -18,6 +18,10 @@ Project uses `request` package to fetch files.
 
 Project uses `adm-zip` package to unzip files.
 
+### File System
+
+Project uses `fs` package to read & write files.
+
 ## TODO
 
 Implement checksum mechanism for files.
