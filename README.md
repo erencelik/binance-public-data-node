@@ -26,6 +26,8 @@ Project uses `fs` package to read & write files.
 
 Implement checksum mechanism for files.
 
+Replace `request` package with `node-fetch` as `request` was deprecated long time ago.
+
 Write test suits.
 
 ## License
